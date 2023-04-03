@@ -24,8 +24,8 @@ export class TestDataServiceService {
     },
     {
       id: 1,
-      name: "make neck",
-      description: "need to make a neck for the guitar",
+      name: "Get neck",
+      description: "need to get a neck for the guitar",
       subTasks: [],
       parentTask: 0,
       expanded: true,

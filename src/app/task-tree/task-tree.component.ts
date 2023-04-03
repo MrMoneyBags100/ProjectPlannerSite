@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { TaskService } from '../core/services/task.service';
 
 @Component({
@@ -7,11 +7,11 @@ import { TaskService } from '../core/services/task.service';
 <div class="bg-primary text-black pt-4 pb-4"> 
   <div class="container">
 
-    <div class="container border bg-light text-black pt-4 pb-4 mb-3">
+    <div id="task-tree" class="container border bg-light text-black pt-4 pb-4 mb-3">
       ToolBar: 
-      <button class="AddTask me-2 ms-2" (click)="newTask(hello, hello)">Add Task</button><!--Not working :(-->
-      <button class="AddTask me-2">Edit Task</button>
-      <button class="AddTask me-2">Delete Task</button>
+      <button class="AddTask me-2 ms-2" (click)="newTask('New Task', 'New Description')">Add Task</button>
+      <button class="AddTask me-2" (click)="editTask(0)">Edit Task</button>
+      <button class="AddTask me-2" (click)="deleteTask(0)">Delete Task</button>
     </div>
 
     <h1>Task Tree:</h1>
@@ -26,10 +26,10 @@ import { TaskService } from '../core/services/task.service';
 })
 
 export class TaskTreeComponent {
-  constructor(private taskService: TaskService)
+  constructor(private taskService: TaskService,
+    private changeDetectorRef: ChangeDetectorRef)
   {}
 
-  hello: string = 'hello';
 
   getBaseTaskID()
   {
@@ -44,5 +44,13 @@ export class TaskTreeComponent {
   newTask(newName: string, newDescription: string)//creates a new task with user given details as a subtask of the current selected task, automatically pushes it to the tasklist
   {
     this.taskService.NewTask(newName, newDescription);
+  }
+  editTask(ID: number)
+  {
+    this.taskService.EditTask(ID);
+  }
+  deleteTask(ID: number)
+  {
+    this.taskService.DeleteTask(ID);
   }
 }

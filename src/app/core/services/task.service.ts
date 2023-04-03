@@ -6,7 +6,7 @@ import { TestDataServiceService } from './test-data-service.service';
   providedIn: 'root'
 })
 export class TaskService {
-  constructor(testDataService: TestDataServiceService)
+  constructor(testDataService: TestDataServiceService)//Initial grabbing of our data from the "backend"
   {
     //Grab all neccessary data from the backend and assign it:
     //taskList array, this will need to be done recursively, seeing as 
@@ -30,23 +30,44 @@ export class TaskService {
 
 
 
+  //
+  UpdateTaskTree() {
+    const taskTreeElement = document.getElementById('task-tree');
+  
+    if (taskTreeElement) {
+      // Create a new div element to hold the new tree
+      const newTreeContainer = document.createElement('div');
+  
+      // Create the new tree element and append it to the container
+      const newTree = document.createElement('app-task-tree');
+      newTreeContainer.appendChild(newTree);
+  
+      // Append the new container to the task-tree element
+      taskTreeElement.appendChild(newTreeContainer);
+    }
+  }
+
   //Task general tools
 
   NewTask(newName: string, newDescription: string)//creates a new task with user given details as a subtask of the current selected task, automatically pushes it to the tasklist
   {
+    console.log("A new task called \"", newName, "\" is being added to the tasklist");
     let emptySubtasks: number[] = [];
-    this.taskList.push(new Task(this.currentID, newName, newDescription, this.baseTaskID, emptySubtasks));//baseTaskID needs to be changed to selectedTask if there is a selected task
+    this.taskList.push(new Task(this.currentID, newName, newDescription, this.baseTaskID, emptySubtasks, true, false));//baseTaskID needs to be changed to selectedTask if there is a selected task
+    this.FindTaskByID(this.baseTaskID).AddSubtask(this.currentID);
     this.currentID++;
+    this.UpdateTaskTree()
   }
-
   EditTask(editID: number)//Allows description and title of given ID to be edited
   {
-
+    console.log("A task called \"", this.FindTaskByID(editID).GetName(), "\" is being edited");
+    console.log(this.taskList);
+    this.UpdateTaskTree()
   }
-
-  DeleteTask()
+  DeleteTask(deleteID: number)
   {
-
+    console.log("A task called \"", this.FindTaskByID(deleteID).GetName(), "\" is being deleted");
+    this.UpdateTaskTree()
   }
 
   FindTaskByID(id: number): Task//each task object will have an ID, this function will search the task array for an object with a specific ID and return it
