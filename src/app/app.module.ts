@@ -29,7 +29,8 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    CoreModule
+    CoreModule,
+    FormsModule
   ],
   providers: [   
   ],

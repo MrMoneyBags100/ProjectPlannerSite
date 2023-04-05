@@ -26,13 +26,13 @@ export class TaskService {
   taskList: Task[] = [];//this taskList will be where all frontend data changes are made, when changes are applied, we just send this array back to replace existing data
   currentID: number = 0;//signifies which ID is next to be given out to a new task
   baseTaskID: number;
-  selectedTask: number | undefined;//ID of the current selected task                                                 0 FOR NOW WHILE TESTING
+  selectedTask: number = -1;//ID of the current selected task                                                 0 FOR NOW WHILE TESTING
 
 
 
   //
   UpdateTaskTree() {
-    const taskTreeElement = document.getElementById('task-tree');
+    const taskTreeElement = document.getElementById('task-tree-toolbar');
   
     if (taskTreeElement) {
       // Create a new div element to hold the new tree

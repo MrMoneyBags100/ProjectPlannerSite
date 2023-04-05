@@ -8,6 +8,7 @@ import { Task } from '../Task';
 <div class = "card"> <!--This task-->
   <div class = "card-body">
     <div class="task-container" (click)="task.ToggleExpanded()" style="cursor: pointer;">
+      <input type="radio" id="taskID" name="selected-task" value="TaskID">
       <div class="task-header">
         <h3>{{ task.GetName() }}</h3>
       </div>

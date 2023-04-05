@@ -22,16 +22,11 @@ Make website
 
 
 IMPORTANT:
-add selected feature to tasks on task tree
-allow tasks to be expanded/hidden on the task tree
 allow tasks to be completed, which greys them out
-add a taskbar to the task tree (for add, delete, edit)
 
 FIXES:
-Please rework/remake the NewTask function in TaskService, not currently used but needs to be working before New/Delete/Edit features are added
-create toolbar for task tree
-make a little toggle button for expanding tasks instead of the entire card
-allow tasks to be selected by clicking on it(how we currently toggle expand a task)
+make a little toggle button for expanding tasks instead of the entire card, add a button, image is in my downloads folder :)
+allow tasks to be selected by clicking on it(how we currently toggle expand a task), use radio buttons.
 make all data-editing functions also edit the database
 
 PROFIT

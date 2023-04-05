@@ -7,11 +7,13 @@ import { TaskService } from '../core/services/task.service';
 <div class="bg-primary text-black pt-4 pb-4"> 
   <div class="container">
 
-    <div id="task-tree" class="container border bg-light text-black pt-4 pb-4 mb-3">
+    <div id="task-tree-toolbar" class="container border bg-light text-black pt-4 pb-4 mb-3">
       ToolBar: 
-      <button class="AddTask me-2 ms-2" (click)="newTask('New Task', 'New Description')">Add Task</button>
+      <button class="AddTask me-2 ms-2" (click)="newTask(newTitle, newDescription)">Add Task</button>
       <button class="AddTask me-2" (click)="editTask(0)">Edit Task</button>
-      <button class="AddTask me-2" (click)="deleteTask(0)">Delete Task</button>
+      <button class="AddTask me-5" (click)="deleteTask(0)">Delete Task</button>
+      <input type="text" name="name" class="input me-2" [(ngModel)]="newTitle" placeholder="Title">
+      <input type="text" name="name" class="input me-2" [(ngModel)]="newDescription" placeholder="Description">
     </div>
 
     <h1>Task Tree:</h1>
@@ -30,12 +32,13 @@ export class TaskTreeComponent {
     private changeDetectorRef: ChangeDetectorRef)
   {}
 
+  newTitle: string = '';
+  newDescription: string = '';
 
   getBaseTaskID()
   {
     return this.taskService.baseTaskID;
   }
-
   findTaskByID(id: number)
   {
     return this.taskService.FindTaskByID(id);
