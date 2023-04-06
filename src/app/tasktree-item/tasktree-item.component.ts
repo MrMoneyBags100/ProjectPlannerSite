@@ -7,17 +7,19 @@ import { Task } from '../Task';
   template: `
 <div class = "card"> <!--This task-->
   <div class = "card-body">
-    <div class="task-container" (click)="task.ToggleExpanded()" style="cursor: pointer;">
-      <input type="radio" id="taskID" name="selected-task" value="TaskID">
+    <div class="task-container">
+      <img class="me-3" src="assets/images/TaskArrow-Expanded.png" *ngIf="GetExpanded()" (click)="task.ToggleExpanded()" style="cursor: pointer;" width="30" height="30"/>
+      <img class="me-3" src="assets/images/TaskArrow-Closed.png" *ngIf="!GetExpanded()" (click)="task.ToggleExpanded()" style="cursor: pointer;" width="30" height="30"/>
+      <input type="radio" name="selectedButton" [value]="task.GetID()" (click)="SetSelectedTask(task.GetID())">
       <div class="task-header">
         <h3>{{ task.GetName() }}</h3>
       </div>
       <div class="task-details">
         <p>{{ task.GetDescription() }}</p>
       </div>
-      <div class="task-expanded">
+      <!-- <div class="task-expanded">
         <p>Expansion status: {{ task.GetExpandedStatus() }}</p>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -48,5 +50,9 @@ export class TaskItemComponent {
   {
     return this.task.GetExpandedStatus();
   }
-}
 
+  SetSelectedTask(id: number)
+  {
+    this.taskService.SetSelectedTask(id);
+  }
+}

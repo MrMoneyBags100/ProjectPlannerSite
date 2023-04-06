@@ -1,32 +1,9 @@
-Make website
-    Design the site
-        Use wireframe.cc and add to this folder.
-
-    Figure out js logic
-        Build a flowchart with lots of self notes.
-        Write semi-pseudo-code to describe certain features to myself
-        Decide what information is going to be saved
-
-    Build website
-        Learn more bootstrap 5, (common in workplace)
-            W3Schools and random videos
-        Use previous projects and videos to learn as developing.
-
-    Create C# backend
-        Learn neccessary information on C# .net/asp.net <- (no idea what the difference is)
-        Write backend capable of handling all neccessary information
-
-    Launch website
-        Link C# backend to my angular frontend
-        Find a cheap/free hosting service to test a Launch
-
-
 IMPORTANT:
 allow tasks to be completed, which greys them out
+make all data-editing functions also edit the database
+make delete task button work, be sure to delete all subtasks, and check if tasklist empty, if so get ready to redefine baseTaskID, maybe if tasklist empty we could reset ID count to 0.
+fill name and description input boxes with contents of whatever task is selected once upon selecting (not ngModel), until changed manually
 
 FIXES:
-make a little toggle button for expanding tasks instead of the entire card, add a button, image is in my downloads folder :)
-allow tasks to be selected by clicking on it(how we currently toggle expand a task), use radio buttons.
-make all data-editing functions also edit the database
 
 PROFIT

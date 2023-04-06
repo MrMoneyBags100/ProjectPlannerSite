@@ -26,7 +26,7 @@ export class TaskService {
   taskList: Task[] = [];//this taskList will be where all frontend data changes are made, when changes are applied, we just send this array back to replace existing data
   currentID: number = 0;//signifies which ID is next to be given out to a new task
   baseTaskID: number;
-  selectedTask: number = -1;//ID of the current selected task                                                 0 FOR NOW WHILE TESTING
+  private selectedTaskID: number = -1;//ID of the current selected task
 
 
 
@@ -51,17 +51,18 @@ export class TaskService {
 
   NewTask(newName: string, newDescription: string)//creates a new task with user given details as a subtask of the current selected task, automatically pushes it to the tasklist
   {
-    console.log("A new task called \"", newName, "\" is being added to the tasklist");
     let emptySubtasks: number[] = [];
-    this.taskList.push(new Task(this.currentID, newName, newDescription, this.baseTaskID, emptySubtasks, true, false));//baseTaskID needs to be changed to selectedTask if there is a selected task
-    this.FindTaskByID(this.baseTaskID).AddSubtask(this.currentID);
+    this.taskList.push(new Task(this.currentID, newName, newDescription, this.selectedTaskID, emptySubtasks, true, false));
+    console.log("A new task called \"", newName, "\" is being added to the tasklist as a subtask of task ID: \"", this.FindTaskByID(this.currentID).GetParentTaskID(), "\"");
+    this.FindTaskByID(this.selectedTaskID).AddSubtask(this.currentID);
     this.currentID++;
-    this.UpdateTaskTree()
+    this.UpdateTaskTree();
   }
-  EditTask(editID: number)//Allows description and title of given ID to be edited
+  EditTask(newName: string, newDescription: string)//Allows description and title of given ID to be edited
   {
-    console.log("A task called \"", this.FindTaskByID(editID).GetName(), "\" is being edited");
-    console.log(this.taskList);
+    console.log("A task called \"", this.FindTaskByID(this.selectedTaskID).GetName(), "\" is having its name turned to \"", newName, "\" and its description turned to \"", newDescription, "\"");
+    this.FindTaskByID(this.selectedTaskID).SetName(newName);
+    this.FindTaskByID(this.selectedTaskID).SetDescription(newDescription);
     this.UpdateTaskTree()
   }
   DeleteTask(deleteID: number)
@@ -94,6 +95,12 @@ export class TaskService {
       }
     }
     return endPointIDs;
+  }
+
+  SetSelectedTask(id: number)
+  {
+    this.selectedTaskID = id;
+    console.log("selected task ID is: ", id);
   }
 
 

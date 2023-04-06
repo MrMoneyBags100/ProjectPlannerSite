@@ -113,6 +113,15 @@ export class Task {
   }
 
   //Setters
+  SetName(newName: string)
+  {
+    this.name = newName;
+  }
+  SetDescription(newDescription: string)
+  {
+    this.description = newDescription;
+  }
+
   ToggleExpanded(forceStatus?: boolean)//Changes whether this task should have its subtasks expanded
   {
     if(forceStatus)
