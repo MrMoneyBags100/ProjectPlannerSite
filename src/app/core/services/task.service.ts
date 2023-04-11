@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Task } from 'src/app/Task';
 import { TestDataServiceService } from './test-data-service.service';
+import { elementAt } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,9 @@ export class TaskService {
   }
 
 
+  //
+  //Global values
+  //
   taskList: Task[] = [];//this taskList will be where all frontend data changes are made, when changes are applied, we just send this array back to replace existing data
   currentID: number = 0;//signifies which ID is next to be given out to a new task
   baseTaskID: number;
@@ -30,8 +34,8 @@ export class TaskService {
 
 
 
-  //
-  UpdateTaskTree() {
+  UpdateTaskTree()//To be everytime after a data-changing function is called to make sure visuals are accurate to data
+  {
     const taskTreeElement = document.getElementById('task-tree-toolbar');
   
     if (taskTreeElement) {
@@ -47,7 +51,9 @@ export class TaskService {
     }
   }
 
+  //
   //Task general tools
+  //
 
   NewTask(newName: string, newDescription: string)//creates a new task with user given details as a subtask of the current selected task, automatically pushes it to the tasklist
   {
@@ -58,17 +64,44 @@ export class TaskService {
     this.currentID++;
     this.UpdateTaskTree();
   }
-  EditTask(newName: string, newDescription: string)//Allows description and title of given ID to be edited
+  EditTask(newName: string, newDescription: string)//Allows description and title of selectedID to be edited
   {
     console.log("A task called \"", this.FindTaskByID(this.selectedTaskID).GetName(), "\" is having its name turned to \"", newName, "\" and its description turned to \"", newDescription, "\"");
     this.FindTaskByID(this.selectedTaskID).SetName(newName);
     this.FindTaskByID(this.selectedTaskID).SetDescription(newDescription);
     this.UpdateTaskTree()
   }
-  DeleteTask(deleteID: number)
+  DeleteTask(deleteID: number)//Deletes the selected task and all subtasks
   {
-    console.log("A task called \"", this.FindTaskByID(deleteID).GetName(), "\" is being deleted");
+    console.log("A task called \"", this.FindTaskByID(this.selectedTaskID).GetName(), "\" is being deleted");
+
+    let DeleteSubtaskList: number[] = this.FindTaskByID(deleteID).GetSubtaskIDs();//Create list of all current tasks subtasks to reduce calls to grab them
+    //------------------------------------------------Make sure there are subtasks first
+    if (DeleteSubtaskList.length > 0)
+    {
+      for (let i = 0; i < DeleteSubtaskList.length; i++)//Call this delete function for each of the DeleteSubtaskList elements ID's
+      {
+        this.DeleteTask(DeleteSubtaskList[i]);
+      }
+    }
+    //Delete self after calling this function on subtasks to ensure no problems and reduce data being transferred evertime a change is made
+    //Make two arrays make a slice() either side of the task we want to delete
+    console.log(this.taskList);
+    let firstSlice: Task[] = this.taskList.slice(0, deleteID);
+    console.log(firstSlice);
+    let secondSlice: Task[] = this.taskList.slice(deleteID+1, this.taskList.length);
+    console.log(secondSlice);
+    //Clear the main taskList and repopulate it with the afformentioned half-arrays, BOOM
+    this.taskList = [...firstSlice, ...secondSlice];
+    console.log(this.taskList);
+
+
     this.UpdateTaskTree()
+  }
+
+  GetSelectedTaskID()
+  {
+    return this.selectedTaskID;
   }
 
   FindTaskByID(id: number): Task//each task object will have an ID, this function will search the task array for an object with a specific ID and return it
@@ -83,7 +116,24 @@ export class TaskService {
         return element;
       }
     }
-    return this.taskList[1];
+    return this.taskList[this.FindElementNumberFromID(this.baseTaskID)];//If Task not found, just return the baseTaskID
+  }
+
+  FindElementNumberFromID(id: number)
+  {
+    let elementNumber = -1;
+    for (let i = 0; i < this.taskList.length; i++)
+    {
+      if (this.taskList[i].GetID() == id)
+      {
+        elementNumber = i;
+      }
+    }
+    if (elementNumber == -1)
+    {
+      console.log("cannot find element number of ID: \"", id, "\"");
+    }
+    return elementNumber;
   }
 
   FindEndpointIDs() {

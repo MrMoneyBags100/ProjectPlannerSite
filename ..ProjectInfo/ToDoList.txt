@@ -5,5 +5,6 @@ make delete task button work, be sure to delete all subtasks, and check if taskl
 fill name and description input boxes with contents of whatever task is selected once upon selecting (not ngModel), until changed manually
 
 FIXES:
+DeletTask() is NOT working, crashes when using, something to to with infinite recursion, I dont have the brain for this right now
 
 PROFIT

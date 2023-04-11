@@ -8,11 +8,11 @@ import { Task } from '../Task';
 <div class = "card"> <!--This task-->
   <div class = "card-body">
     <div class="task-container">
-      <img class="me-3" src="assets/images/TaskArrow-Expanded.png" *ngIf="GetExpanded()" (click)="task.ToggleExpanded()" style="cursor: pointer;" width="30" height="30"/>
-      <img class="me-3" src="assets/images/TaskArrow-Closed.png" *ngIf="!GetExpanded()" (click)="task.ToggleExpanded()" style="cursor: pointer;" width="30" height="30"/>
+      <img class="me-3" src="assets/images/TaskArrow-Expanded.png" *ngIf="GetExpanded()" (click)="task.ToggleExpanded()" style="cursor: pointer;" width="20" height="20"/>
+      <img class="me-3" src="assets/images/TaskArrow-Closed.png" *ngIf="!GetExpanded()" (click)="task.ToggleExpanded()" style="cursor: pointer;" width="20" height="20"/>
       <input type="radio" name="selectedButton" [value]="task.GetID()" (click)="SetSelectedTask(task.GetID())">
       <div class="task-header">
-        <h3>{{ task.GetName() }}</h3>
+        <h4>{{ task.GetName() }}</h4>
       </div>
       <div class="task-details">
         <p>{{ task.GetDescription() }}</p>

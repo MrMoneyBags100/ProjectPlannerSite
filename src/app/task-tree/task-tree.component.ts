@@ -11,7 +11,7 @@ import { TaskService } from '../core/services/task.service';
       ToolBar: 
       <button class="AddTask me-2 ms-2" (click)="newTask(newName, newDescription)">Add Task</button>
       <button class="AddTask me-2" (click)="editTask(newName, newDescription)">Edit Task</button>
-      <button class="AddTask me-5" (click)="deleteTask(0)">Delete Task</button>
+      <button class="AddTask me-5" (click)="deleteTask()">Delete Task</button>
       <input type="text" name="name" class="input me-2" [(ngModel)]="newName" placeholder="Title">
       <input type="text" name="name" class="input me-2" [(ngModel)]="newDescription" placeholder="Description">
       <button class="ClearInputs me-2" (click)="clearInputs()">Clear-inputs</button>
@@ -53,9 +53,9 @@ export class TaskTreeComponent {
   {
     this.taskService.EditTask(this.newName, this.newDescription);
   }
-  deleteTask(ID: number)
+  deleteTask()
   {
-    this.taskService.DeleteTask(ID);
+    this.taskService.DeleteTask(this.taskService.GetSelectedTaskID());
   }
   clearInputs()
   {
