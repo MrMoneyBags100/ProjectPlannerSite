@@ -71,13 +71,14 @@ export class TaskService {
     this.FindTaskByID(this.selectedTaskID).SetDescription(newDescription);
     this.UpdateTaskTree()
   }
+
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------NOT WORKING YET
   DeleteTask(deleteID: number)//Deletes the selected task and all subtasks
   {
-    console.log("A task called \"", this.FindTaskByID(this.selectedTaskID).GetName(), "\" is being deleted");
-
-    let DeleteSubtaskList: number[] = this.FindTaskByID(deleteID).GetSubtaskIDs();//Create list of all current tasks subtasks to reduce calls to grab them
-    //------------------------------------------------Make sure there are subtasks first
-    if (DeleteSubtaskList.length > 0)
+    console.log("A task called \"", this.FindTaskByID(deleteID).GetName(), "\" is being deleted");
+    let DeleteSubtaskList: number[] = this.FindTaskByID(deleteID).GetSubtaskIDs();//Create list of all current tasks subtasks
+    
+    if (DeleteSubtaskList.length > 0)//Make sure there are subtasks first
     {
       for (let i = 0; i < DeleteSubtaskList.length; i++)//Call this delete function for each of the DeleteSubtaskList elements ID's
       {
@@ -85,18 +86,19 @@ export class TaskService {
       }
     }
     //Delete self after calling this function on subtasks to ensure no problems and reduce data being transferred evertime a change is made
-    //Make two arrays make a slice() either side of the task we want to delete
-    console.log(this.taskList);
-    let firstSlice: Task[] = this.taskList.slice(0, deleteID);
-    console.log(firstSlice);
-    let secondSlice: Task[] = this.taskList.slice(deleteID+1, this.taskList.length);
-    console.log(secondSlice);
-    //Clear the main taskList and repopulate it with the afformentioned half-arrays, BOOM
-    this.taskList = [...firstSlice, ...secondSlice];
-    console.log(this.taskList);
 
 
-    this.UpdateTaskTree()
+    console.log("Pre-splice tasklist: ", this.taskList);
+
+    const taskIndex = this.taskList.findIndex(task => task.GetID() === deleteID);
+    if (taskIndex >= 0)
+    {
+      console.log(this.FindTaskByID(deleteID).GetName(), "Being spliced baby!");
+      this.taskList.splice(taskIndex, 1);
+    }
+
+    console.log("Spliced tasklist: ", this.taskList);
+    this.UpdateTaskTree();
   }
 
   GetSelectedTaskID()
